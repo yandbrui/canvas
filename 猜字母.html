@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>猜字母</title>
+ <style type="text/css">
+ *{margin:0;padding:0;}
+ /*canvas{width:1000px;height:1000px;}*/
+ </style>   
+ <script>
+ window.onload = function(){
+    var canvas = document.getElementById('canvas');
+    var conText = canvas.getContext('2d');
+    var guesses = 0; //保存玩家按键的次数，次数越少说明玩的越好
+    var message = '往Z方向猜还是往A方向猜';//用来向玩家提示游戏的玩法
+    var letters = [
+        'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
+    ];
+    var today = new Date();//保存当前日期，仅用于在屏幕上显示，吴其他用处
+    var lettersGuess = '';//保存当前被猜中的游戏秘密字母
+    var higherOrLower = '';//储存文本'Higher'或'Lower',具体取决于最后一次猜的字母与秘密字母的位置关系。如果秘密字母离'a'更近，则程序给出'Lower'提示，如果离'z'更近，则程序给出'heigher'提示
+    var lettersGuessed;//保存玩家猜过的字母集合,程序将把这些字母显示在屏幕上,提示玩家他已经猜过什么字母
+    var gameOver = false;//玩家获胜钱都设为false，程序能通过他知道何时再屏幕上显示'你赢了'信息，玩家赢了以后就不用再猜了
+
+    function initGame(){
+        var letterIndex = Math.floor(Math.random()*letters.length);//从字母数组中找出一个随机字母
+        letterToGuess = letters[letterIndex];//将找到的一个随机字母放入变量中
+        guesses = 0;
+        lettersGuessed = [];
+        gameOver = false;
+        window.addeventListener('keydown',eventKeypressed,true);//为DOM的window对象添加一个监听器，以监听键盘的keydown事件。当某个键被按下时，将调用eventKeyPressed事件出路函数检测按下的字母
+        drawscreen();
+    }
+    function eventKeypressed(e){
+        if(!gameOver){
+            var letterPressed = string.fromCharCode(e.keyCode);
+            letterPressed = letterPressed.toLowerCase();
+            guesses++;
+            lettersGuessed.push(letterPressed);
+            if(letterPressed == letterToGuess){
+                gameOver = true;
+            }else{
+                letterIndex = letters.indexOf(lettersToGuess);
+                guessIndex = letters.indexOf(lettersPressed);
+                if(guessIndex < 0){
+                    higherOrLower = 'That is not a letter';
+                }else if(guessIndex > letterIndex){
+                    higherOrLower = 'Lower';
+                }else{
+                    higherOrLower = 'Higher';
+                }
+            }
+            drwScreen();
+        }
+    }
+    function drawScreen(){
+        conText.fillStyle = '#ffffaa';
+        conText.fillRect(0,0,490,300);
+
+        conText.strokeStyle = '#000000';
+        conText.strokeRect(0,0,490,290);
+        conText.text.textBaseline = 'top';
+        conText.font = '10px Sans-Serif';
+        conText.fillText(today,150,10);
+        conText.fillStyle = '#ff0000';
+        conText.font = '16px Sans-Serif';
+        conText.fillText(message,125,30);
+        conText.fillStyle = '#109910';
+        conText.font = '16 Sans-Serif';
+        conText.Texe('Guesses:'+guesses,215,50);
+        conText.fillStyle = '#000000';
+        conText.font = '16px Sans-Serif';
+        conText.fillText('Higher Or Lower:'+higherOrLower,150,125);
+        conText.fillStyle = '#ff0000';
+        conText.font = '16px Sans-Serif';
+        conText.fillText('Letters Guessed:'+lettersGuessed.toString(),10,260);
+        if(gameOver){
+            context.fillStyle = '#ff0000';
+            conText.font = '16px Sans-Serif';
+            conText.fillText('you got it!',150,180);
+        }
+    }
+ }
+ </script>   
+</head>
+<body>
+    <div style="position:absolite;left:50px;top:50px;">
+        <canvas id="canvas" width="500" height="300">
+        
+        </canvas>
+    </div>
+</body>
+</html>

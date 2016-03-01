@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+*{margin:0;padding:0;}
+    body{background:#000;}        
+    #canvas{background:#fff;}
+    span{color:#fff;}
+</style>    
+<script>
+    window.onload = function(){
+        var oC = document.getElementById('canvas');
+        var oGc = oC.getContext('2d');
+
+       oC.onmousedown = function(ev){
+            var ev = ev || event;
+            oGc.moveTo(ev.clientX,ev.clientY);
+            document.onmousemove = function(ev){
+                var ev = ev || event;
+                oGc.lineTo(ev.clientX,ev.clientY);
+
+                oGc.stroke();
+            }
+            document.onmouseup = function(){
+                document.onmousemove = document.onmouseup = null;
+            }
+       }
+    }
+</script>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400">
+        <span>您的浏览器不支持canvas</span>
+    </canvas>
+</body>
+</html>

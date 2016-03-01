@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+<style>
+*{margin:0;padding:0;}
+    body{background:#000;}        
+    #canvas{background:#fff;}
+    span{color:#fff;}
+</style>    
+<script>
+    window.onload = function(){
+        var oC = document.getElementById('canvas');
+        var oGc = oC.getContext('2d');
+        function toDraw(){
+            var x = 200;
+            var y = 200;
+            var r = 150;
+
+            oGc.clearRect(0,0,oC.width,oC.height);
+
+            var date  = new Date();
+            var hours = date.getHours();
+            var min = date.getMinutes();
+            var sen = date.getSeconds();
+
+            var oHourValue = (-90 + hours*30 + 30/2) * Math.PI/180;
+            var oMinValue = (-90 + min*6) * Math.PI/180;
+            var oSenValue = (-90 + sen*6) * Math.PI/180;
+            // oGc.moveTo(x,y);
+            // oGc.arc(x,y,r,0,6*Math.PI/180,false);
+            oGc.beginPath();
+
+            for( var i = 0; i < 60; i++ ){
+                oGc.moveTo(x,y);
+                oGc.arc(x,y,r,6*i*Math.PI/180,6*(i+1)*Math.PI/180,false);
+            }
+
+            oGc.closePath();
+            oGc.stroke();
+
+            oGc.fillStyle = 'white';
+            oGc.beginPath();
+
+            oGc.moveTo(x,y);
+            oGc.arc(x,y,r*19/20,0,360*(i+1)*Math.PI/180,false);
+
+            oGc.closePath();
+            oGc.fill();
+
+
+            oGc.beginPath();
+            oGc.lineWidth = 3;
+            for( var i = 0; i < 12; i++ ){
+                oGc.moveTo(x,y);
+                oGc.arc(x,y,r,30*i*Math.PI/180,30*(i+1)*Math.PI/180,false);
+            }
+            oGc.closePath();
+            oGc.stroke();
+
+            oGc.fillStyle = 'white';
+            oGc.beginPath();
+
+            oGc.moveTo(x,y);
+            oGc.arc(x,y,r*18/20,0,360*(i+1)*Math.PI/180,false);
+
+            oGc.closePath();
+            oGc.fill();
+
+            oGc.lineWidth = 5;
+            oGc.beginPath();
+            oGc.moveTo(x,y);
+            oGc.arc(x,y,r*10/20,oHourValue,oHourValue,false)
+            oGc.closePath();
+            oGc.stroke();
+
+            oGc.lineWidth = 4;
+            oGc.beginPath();
+            oGc.moveTo(x,y);
+            oGc.arc(x,y,r*13/20,oMinValue,oMinValue,false)
+            oGc.closePath();
+            oGc.stroke();
+
+            oGc.lineWidth = 2;
+            oGc.beginPath();
+            oGc.moveTo(x,y);
+            oGc.arc(x,y,r*16/20,oSenValue,oSenValue,false)
+            oGc.closePath();
+            oGc.stroke();
+
+        }
+
+        setInterval(function(){
+            toDraw();
+        },1000)
+      
+    }
+</script>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400">
+        <span>您的浏览器不支持canvas</span>
+    </canvas>
+</body>
+</html>
